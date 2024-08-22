@@ -9,13 +9,13 @@
 
 #include <stdint.h>
 
+// --- Forward declaration
+
+typedef struct fsm_transition_s fsm_transition_t;
+
 // --- Public types
 
-typedef int32_t fsm_event_t;
-
-typedef struct {
-  fsm_event_t event_type;
-} fsm_event_t;
+typedef int32_t fsm_event_type_t;
 
 typedef struct {
   fsm_transition_t* transition_list;
@@ -26,14 +26,18 @@ typedef struct {
 } fsm_state_t;
 
 typedef struct {
-  fsm_event_t event_type;
+  fsm_event_type_t event_type;
+} fsm_event_t;
+
+struct fsm_transition_s {
+  fsm_event_type_t event_type;
   fsm_state_t* next_state;
   // start state
   // event
   // target state
   // Action
   // Guard
-} fsm_transition_t;
+};
 
 typedef struct {
   fsm_state_t* current_state;
