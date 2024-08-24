@@ -1,0 +1,30 @@
+/**
+ * \file test_fsm.h
+ * \brief Test FSM
+ * \date 2024-08
+ * \author Nicolas Boutin
+ */
+
+#include "gmock/gmock.h"
+
+extern "C" {
+#include "fsm/fsm.h"
+#include "fsm_on_off.h"
+}
+
+using namespace testing;
+
+class FSM_test : public ::testing::Test {
+protected:
+  void SetUp()
+  {
+    fsm_init(&fsm, &off_state);
+  }
+
+  fsm_t fsm;
+};
+
+TEST_F(FSM_test, trigger)
+{
+  fsm_trigger(&fsm, &on_event);
+}

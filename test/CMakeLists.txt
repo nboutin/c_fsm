@@ -1,11 +1,12 @@
 
 add_executable(${PROJECT_NAME}
-    suites/test_timer.cpp
-    suites/test_timer_set_interval.cpp
-    suites/test_timer_set_timeout.cpp
+    fsm_definition/fsm_on_off.c
+    suites/test_fsm.cpp
 )
 
-target_link_libraries(${PROJECT_NAME} PRIVATE timer gtest gtest_main gmock)
+target_include_directories(${PROJECT_NAME} PRIVATE fsm_definition)
+
+target_link_libraries(${PROJECT_NAME} PRIVATE fsm gtest gtest_main gmock)
 add_test(NAME ${PROJECT_NAME} COMMAND ${PROJECT_NAME})
 
 include(GoogleTest)

@@ -1,12 +1,12 @@
 cmake_minimum_required(VERSION 3.20)
-project(c_fsm)
+project(fsm)
 
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
-option(C_FSM_TEST "Build Timer Tests" OFF)
+option(FSM_TEST "Build Timer Tests" OFF)
 
 include(EnableExtraCompilerWarnings)
 
@@ -29,18 +29,18 @@ target_compile_options(${PROJECT_NAME}
   PRIVATE
   -Wall -Werror -Wextra -Wconversion
   -Werror=missing-declarations
-  $<$<BOOL:${C_FSM_TEST}>:-g -O0>
+  $<$<BOOL:${FSM_TEST}>:-g -O0>
 )
 
 # enable_extra_compiler_warnings(${PROJECT_NAME})
 target_compile_definitions(${PROJECT_NAME}
   PRIVATE
-  $<$<BOOL:${C_FSM_TEST}>:static=>
+  $<$<BOOL:${FSM_TEST}>:static=>
 )
 
 target_link_libraries(${PROJECT_NAME}
   PRIVATE
-  $<$<BOOL:${C_FSM_TEST}>:gcov>
+  $<$<BOOL:${FSM_TEST}>:gcov>
 )
 
 if(CMAKE_CROSSCOMPILING)
@@ -56,7 +56,7 @@ if(CMAKE_CROSSCOMPILING)
   set(CMAKE_ASM_FLAGS "${CMAKE_C_FLAGS} -x assembler-with-cpp")
 endif()
 
-if(C_FSM_TEST)
+if(FSM_TEST)
   project(${PROJECT_NAME}_test LANGUAGES C CXX)
   include(CTest)
 

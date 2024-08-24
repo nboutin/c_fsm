@@ -11,11 +11,11 @@
 
 // --- Private functions
 
-static fsm_transition_t* _fsm_get_transition(const fsm_state_t* state, const fsm_event_t* event);
+static struct fsm_transition_s* _fsm_get_transition(const struct fsm_state_s* state, const struct fsm_event_s* event);
 
 // --- Public functions
 
-void fsm_init(fsm_t* fsm, fsm_state_t* entry_state)
+void fsm_init(fsm_t* fsm, struct fsm_state_s* entry_state)
 {
   if (fsm == NULL)
   {
@@ -24,7 +24,7 @@ void fsm_init(fsm_t* fsm, fsm_state_t* entry_state)
   fsm->current_state = entry_state;
 }
 
-void fsm_trigger(fsm_t* fsm, fsm_event_t* event)
+void fsm_trigger(fsm_t* fsm, struct fsm_event_s* event)
 {
   if ((fsm == NULL) || (event == NULL))
   {
@@ -38,11 +38,11 @@ void fsm_trigger(fsm_t* fsm, fsm_event_t* event)
 
   // Check no transition defined
 
-  fsm_state_t* next_state = fsm->current_state;
+  struct fsm_state_s* next_state = fsm->current_state;
 
   do
   {
-    fsm_transition_t* transition = _fsm_get_transition(next_state, event);
+    struct fsm_transition_s* transition = _fsm_get_transition(next_state, event);
 
     // If no transition for the given (state, event)
     // check for any transition for any of the parents state, if any.
@@ -80,7 +80,7 @@ void fsm_trigger(fsm_t* fsm, fsm_event_t* event)
 
 // --- Private functions
 
-static fsm_transition_t* _fsm_get_transition(const fsm_state_t* state, const fsm_event_t* event)
+static struct fsm_transition_s* _fsm_get_transition(const struct fsm_state_s* state, const struct fsm_event_s* event)
 {
   if ((state == NULL) || (event == NULL))
   {
@@ -89,7 +89,7 @@ static fsm_transition_t* _fsm_get_transition(const fsm_state_t* state, const fsm
 
   for (size_t transition_i = 0; transition_i < state->transition_count; transition_i++)
   {
-    fsm_transition_t* transition = &state->transition_list[transition_i];
+    struct fsm_transition_s* transition = &state->transition_list[transition_i];
 
     if ((transition != NULL) && (transition->event_type == event->event_type))
     {
