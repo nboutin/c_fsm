@@ -24,8 +24,13 @@ protected:
   fsm_t fsm;
 };
 
-TEST_F(FSM_test, trigger)
+TEST_F(FSM_test, dont_run_entry_action_from_fsm_init)
+{
+  EXPECT_EQ(test_counter, 0);
+}
+
+TEST_F(FSM_test, entry_action)
 {
   fsm_trigger(&fsm, &on_event);
-  EXPECT_EQ(test_counter, 100);
+  EXPECT_EQ(test_counter, 1);
 }

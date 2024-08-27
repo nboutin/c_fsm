@@ -15,13 +15,15 @@ static struct fsm_transition_s* _fsm_get_transition(const struct fsm_state_s* st
 
 // --- Public functions
 
+/**
+ * \details Does not call entry_action of entry_state because there is no event
+ */
 void fsm_init(fsm_t* fsm, struct fsm_state_s* entry_state)
 {
   if (fsm == NULL)
   {
     return;
   }
-  // TODO call entry_state entry_action ??
   fsm->current_state = entry_state;
 }
 
