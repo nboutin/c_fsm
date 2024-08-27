@@ -21,6 +21,7 @@ void fsm_init(fsm_t* fsm, struct fsm_state_s* entry_state)
   {
     return;
   }
+  // TODO call entry_state entry_action ??
   fsm->current_state = entry_state;
 }
 
@@ -62,7 +63,14 @@ void fsm_trigger(fsm_t* fsm, struct fsm_event_s* event)
     // TODO if new state is parent_state, enter its entry state
     // TODO run exit action
     // TODO run transition action
-    // TODO call new state entry action
+
+    // Call the new state's entry action if it does not return to itself
+    if ((next_state != fsm->current_state) && (next_state->entry_action))
+    {
+      // TODO pass state_data to entry_action : next_state->entry_action(nextState->data, event);
+      next_state->entry_action(event);
+    }
+
     // TODO Store previous state
     fsm->current_state = next_state;
     // TODO Check for state loop on itself

@@ -18,13 +18,14 @@ class FSM_test : public ::testing::Test {
 protected:
   void SetUp()
   {
+    test_counter = 0;
     fsm_init(&fsm, &off_state);
   }
-
   fsm_t fsm;
 };
 
 TEST_F(FSM_test, trigger)
 {
   fsm_trigger(&fsm, &on_event);
+  EXPECT_EQ(test_counter, 100);
 }
