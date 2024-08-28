@@ -32,14 +32,19 @@ TEST_F(FSM_test, dont_run_entry_action_from_fsm_init)
 TEST_F(FSM_test, entry_action)
 {
   fsm_trigger(&fsm, &on_event);
-  EXPECT_EQ(test_counter, 1001);
+  EXPECT_EQ(test_counter, 14);
 }
 
 TEST_F(FSM_test, exit_action)
 {
   fsm_trigger(&fsm, &on_event);
   fsm_trigger(&fsm, &off_event);
-  EXPECT_EQ(test_counter, 1111);
+  EXPECT_EQ(test_counter, 3214);
 }
 
-// current_state_exit_action_before_next_state_entry_action
+TEST_F(FSM_test, current_state_exit_action_before_next_state_entry_action)
+{
+  fsm_trigger(&fsm, &on_event);
+  fsm_trigger(&fsm, &off_event);
+  EXPECT_EQ(test_counter, 3214);
+}

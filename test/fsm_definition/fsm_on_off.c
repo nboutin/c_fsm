@@ -13,6 +13,8 @@ typedef enum {
 struct fsm_event_s on_event  = {.event_type = event_type_on, .data = &test_counter};
 struct fsm_event_s off_event = {.event_type = event_type_off, .data = &test_counter};
 
+static void update_counter_by_order(uint32_t* counter, uint32_t order);
+
 static void on_entry_action(struct fsm_event_s* event);
 static void on_exit_action(struct fsm_event_s* event);
 static void off_entry_action(struct fsm_event_s* event);
@@ -41,23 +43,43 @@ struct fsm_state_s on_state = {
 static void on_entry_action(struct fsm_event_s* event)
 {
   uint32_t* counter = (uint32_t*) event->data;
-  *counter += 1;
+  update_counter_by_order(counter, 1);
 }
 
 static void on_exit_action(struct fsm_event_s* event)
 {
   uint32_t* counter = (uint32_t*) event->data;
-  *counter += 10;
+  update_counter_by_order(counter, 2);
 }
 
 static void off_entry_action(struct fsm_event_s* event)
 {
   uint32_t* counter = (uint32_t*) event->data;
-  *counter += 100;
+  update_counter_by_order(counter, 3);
 }
 
 static void off_exit_action(struct fsm_event_s* event)
 {
   uint32_t* counter = (uint32_t*) event->data;
-  *counter += 1000;
+  update_counter_by_order(counter, 4);
+}
+
+static void update_counter_by_order(uint32_t* counter, uint32_t order)
+{
+  if ((*counter % 10) == 0)
+  {
+    *counter += order;
+  }
+  else if (((*counter / 10) % 10) == 0)
+  {
+    *counter += order * 10;
+  }
+  else if (((*counter / 100) % 10) == 0)
+  {
+    *counter += order * 100;
+  }
+  else if (((*counter / 1000) % 10) == 0)
+  {
+    *counter += order * 1000;
+  }
 }
