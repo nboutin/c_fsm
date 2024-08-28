@@ -63,10 +63,14 @@ void fsm_trigger(fsm_t* fsm, struct fsm_event_s* event)
     next_state = transition->next_state;
 
     // TODO if new state is parent_state, enter its entry state
-    // TODO run exit action
+    // Call current state exit action only if the current state is left and it does not return to itself
+    if ((next_state != fsm->current_state) && (fsm->current_state->exit_action))
+    {
+      fsm->current_state->exit_action(event);
+    }
     // TODO run transition action
 
-    // Call the new state's entry action if it does not return to itself
+    // Call the next state entry action if it does not return to itself
     if ((next_state != fsm->current_state) && (next_state->entry_action))
     {
       // TODO pass state_data to entry_action : next_state->entry_action(nextState->data, event);

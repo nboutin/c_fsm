@@ -11,7 +11,7 @@ typedef enum {
 } event_type_t;
 
 struct fsm_event_s on_event  = {.event_type = event_type_on, .data = &test_counter};
-struct fsm_event_s off_event = {.event_type = event_type_off};
+struct fsm_event_s off_event = {.event_type = event_type_off, .data = &test_counter};
 
 static void on_entry_action(struct fsm_event_s* event);
 static void on_exit_action(struct fsm_event_s* event);
