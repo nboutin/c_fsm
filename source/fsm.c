@@ -29,7 +29,7 @@ void fsm_init(fsm_t* fsm, struct fsm_state_s* entry_state)
 
 void fsm_trigger(fsm_t* fsm, struct fsm_event_s* event)
 {
-  if ((fsm == NULL) || (event == NULL))
+  if (!fsm)
   {
     return;
   }
@@ -39,16 +39,13 @@ void fsm_trigger(fsm_t* fsm, struct fsm_event_s* event)
     return; // TODO goto error_callback
   }
 
-  // Check no transition defined
-
   struct fsm_state_s* next_state = fsm->current_state;
 
   do
   {
     struct fsm_transition_s* transition = _fsm_get_transition(next_state, event);
 
-    // If no transition for the given (state, event)
-    // check for any transition for any of the parents state, if any.
+    // If no transition for the given (state, event) check for any transition for any of the parents states
     if (transition == NULL)
     {
       // TODO check parent state for transitions
@@ -69,6 +66,7 @@ void fsm_trigger(fsm_t* fsm, struct fsm_event_s* event)
     {
       fsm->current_state->exit_action(event);
     }
+
     // TODO run transition action
 
     // Call the next state entry action if it does not return to itself
@@ -97,7 +95,7 @@ void fsm_trigger(fsm_t* fsm, struct fsm_event_s* event)
 
 static struct fsm_transition_s* _fsm_get_transition(const struct fsm_state_s* state, const struct fsm_event_s* event)
 {
-  if ((state == NULL) || (event == NULL))
+  if (!state || !event)
   {
     return NULL;
   }

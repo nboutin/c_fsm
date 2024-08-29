@@ -5,11 +5,6 @@
 
 uint32_t test_counter = 0;
 
-typedef enum {
-  event_type_on,
-  event_type_off,
-} event_type_t;
-
 struct fsm_event_s on_event  = {.event_type = event_type_on, .data = &test_counter};
 struct fsm_event_s off_event = {.event_type = event_type_off, .data = &test_counter};
 

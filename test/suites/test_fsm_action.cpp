@@ -1,5 +1,5 @@
 /**
- * \file test_fsm.h
+ * \file test_fsm_action.h
  * \brief Test FSM
  * \date 2024-08
  * \author Nicolas Boutin
@@ -14,7 +14,7 @@ extern "C" {
 
 using namespace testing;
 
-class FSM_test : public ::testing::Test {
+class FSM_test_action : public ::testing::Test {
 protected:
   void SetUp()
   {
@@ -24,38 +24,38 @@ protected:
   fsm_t fsm;
 };
 
-TEST_F(FSM_test, dont_run_entry_action_from_fsm_init)
+TEST_F(FSM_test_action, dont_run_entry_action_from_fsm_init)
 {
   EXPECT_EQ(test_counter, 0);
 }
 
-TEST_F(FSM_test, entry_action)
+TEST_F(FSM_test_action, entry_action)
 {
   fsm_trigger(&fsm, &on_event);
   EXPECT_EQ(test_counter, 14);
 }
 
-TEST_F(FSM_test, exit_action)
+TEST_F(FSM_test_action, exit_action)
 {
   fsm_trigger(&fsm, &on_event);
   fsm_trigger(&fsm, &off_event);
   EXPECT_EQ(test_counter, 3214);
 }
 
-TEST_F(FSM_test, current_state_exit_action_before_next_state_entry_action)
+TEST_F(FSM_test_action, current_state_exit_action_before_next_state_entry_action)
 {
   fsm_trigger(&fsm, &on_event);
   fsm_trigger(&fsm, &off_event);
   EXPECT_EQ(test_counter, 3214);
 }
 
-TEST_F(FSM_test, same_state_from_init_state)
+TEST_F(FSM_test_action, same_state_from_init_state)
 {
   fsm_trigger(&fsm, &off_event);
   EXPECT_EQ(test_counter, 0);
 }
 
-TEST_F(FSM_test, same_state_from_on_state)
+TEST_F(FSM_test_action, same_state_from_on_state)
 {
   fsm_trigger(&fsm, &on_event);
   test_counter = 0;
