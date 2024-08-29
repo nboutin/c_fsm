@@ -52,6 +52,7 @@ void fsm_trigger(fsm_t* fsm, struct fsm_event_s* event)
     if (transition == NULL)
     {
       // TODO check parent state for transitions
+      next_state = NULL;
       continue;
     }
 

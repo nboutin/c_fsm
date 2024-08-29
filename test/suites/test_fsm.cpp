@@ -48,3 +48,17 @@ TEST_F(FSM_test, current_state_exit_action_before_next_state_entry_action)
   fsm_trigger(&fsm, &off_event);
   EXPECT_EQ(test_counter, 3214);
 }
+
+TEST_F(FSM_test, same_state_from_init_state)
+{
+  fsm_trigger(&fsm, &off_event);
+  EXPECT_EQ(test_counter, 0);
+}
+
+TEST_F(FSM_test, same_state_from_on_state)
+{
+  fsm_trigger(&fsm, &on_event);
+  test_counter = 0;
+  fsm_trigger(&fsm, &on_event);
+  EXPECT_EQ(test_counter, 0);
+}
