@@ -1,0 +1,12 @@
+@startuml "FSM Keywords"
+
+[*] --> State_A
+State_A -> State_B: event[guard] / action1, action2
+State_A: entry/ entry1
+State_A: entry/ entry2
+State_A: do/ activity1, activity2
+State_A: exit/ exti1
+State_A: exit/ exti2
+State_B --> [*]
+
+@enduml

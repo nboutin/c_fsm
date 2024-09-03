@@ -8,6 +8,7 @@
 #pragma once
 
 #include <stdint.h>
+#include <stdbool.h>
 
 // --- Forward declaration
 
@@ -37,9 +38,20 @@ struct fsm_state_s {
   fsm_action_t exit_action;
 };
 
+typedef void* fsm_condition_t;
+typedef bool (*fsm_guard_t)(fsm_condition_t condition, struct fsm_event_s* event);
+
 struct fsm_transition_s {
   fsm_event_type_t event_type;
   struct fsm_state_s* next_state;
+  /**
+   * \brief Condition will be passed to guard function
+   */
+  fsm_condition_t condition;
+  /**
+   * \return true if the transition is allowed
+   */
+  fsm_guard_t guard;
 };
 
 typedef struct {
