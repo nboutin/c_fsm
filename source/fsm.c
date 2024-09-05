@@ -61,13 +61,14 @@ void fsm_trigger(fsm_t* fsm, struct fsm_event_s* event)
     next_state = transition->next_state;
 
     // TODO if new state is parent_state, enter its entry state
-    // Call current state exit action only if the current state is left and it does not return to itself
+
+    // Exit action: Call current state exit action only if the current state is left and it does not return to itself
     if ((next_state != fsm->current_state) && (fsm->current_state->exit_action))
     {
       fsm->current_state->exit_action(event);
     }
 
-    // TODO run transition action
+    // TODO Transition action
 
     // Call the next state entry action if it does not return to itself
     if ((next_state != fsm->current_state) && (next_state->entry_action))
@@ -91,6 +92,15 @@ void fsm_trigger(fsm_t* fsm, struct fsm_event_s* event)
   return;
 }
 
+const struct fsm_state_s* fsm_get_current_state(const fsm_t* fsm)
+{
+  if (!fsm)
+  {
+    return NULL;
+  }
+  return fsm->current_state;
+}
+
 // --- Private functions
 
 static struct fsm_transition_s* _fsm_get_transition(const struct fsm_state_s* state, const struct fsm_event_s* event)
@@ -106,8 +116,18 @@ static struct fsm_transition_s* _fsm_get_transition(const struct fsm_state_s* st
 
     if ((transition != NULL) && (transition->event_type == event->event_type))
     {
-      // TODO Handle guard condition here
-      return transition;
+      if (transition->guard == NULL)
+      {
+        return transition;
+      }
+      else if (transition->guard(transition->condition, event) == true)
+      {
+        return transition;
+      }
+      else
+      {
+        return NULL;
+      }
     }
   }
   // No transition found for given state

@@ -29,7 +29,7 @@ struct fsm_event_s {
 
 // void ( *entryAction )( void *state_data, struct event *event );
 // typedef void* fsm_data_t;
-typedef void (*fsm_action_t)(struct fsm_event_s* event);
+typedef void (*fsm_action_t)(const struct fsm_event_s* event);
 
 struct fsm_state_s {
   struct fsm_transition_s* transition_list;
@@ -39,7 +39,7 @@ struct fsm_state_s {
 };
 
 typedef void* fsm_condition_t;
-typedef bool (*fsm_guard_t)(fsm_condition_t condition, struct fsm_event_s* event);
+typedef bool (*fsm_guard_t)(const fsm_condition_t condition, const struct fsm_event_s* event);
 
 struct fsm_transition_s {
   fsm_event_type_t event_type;
@@ -63,7 +63,4 @@ typedef struct {
 void fsm_init(fsm_t* fsm, struct fsm_state_s* entry_state);
 void fsm_trigger(fsm_t* fsm, struct fsm_event_s* event);
 
-// void fsm_init (entry_state, entry_action)
-// bool fsm_process
-// fsm_trigger
-// fsm_get_current_state
+const struct fsm_state_s* fsm_get_current_state(const fsm_t* fsm);

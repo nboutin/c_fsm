@@ -1,8 +1,10 @@
 
 add_executable(${PROJECT_NAME}
     fsm_definition/fsm_on_off.c
+    fsm_definition/fsm_elevator.c
     suites/test_fsm_action.cpp
     suites/test_fsm_null.cpp
+    suites/test_fsm_guard.cpp
 )
 
 target_include_directories(${PROJECT_NAME} PRIVATE fsm_definition)

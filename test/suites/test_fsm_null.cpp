@@ -163,3 +163,8 @@ TEST_F(FSM_test_null, get_transition_event_null)
     fsm_trigger(&fsm, NULL);
     ASSERT_TRUE(true);
 }
+
+TEST_F(FSM_test_null, get_current_state_null)
+{
+  fsm_get_current_state(NULL);
+}
